@@ -1,0 +1,1277 @@
+Terminals unused in grammar
+
+   FQSTRING
+
+
+Grammar
+
+    0 $accept: full_definition $end
+
+    1 full_definition: system_definitions
+
+    2 system_definitions: statement_definitions
+    3                   | statement_definitions system_definition
+
+    4 system_definition: special_definition
+    5                  | special_definition variable_definitions
+
+    6 statement_definitions: statement_definition
+    7                      | statement_definition statement_definitions
+
+    8 statement_definition: variable_definition
+    9                     | ifstm_definition
+   10                     | switch_definition
+
+   11 switch_definition: start_sw_stm case_statements end_sw_stm
+
+   12 start_sw_stm: RW_SWITCH '(' IDENTIFIER ')' '{'
+
+   13 end_sw_stm: '}'
+
+   14 case_statements: case_statement
+   15                | case_def_statement
+   16                | case_statement case_statements
+
+   17 case_def_statement: default_label variable_definitions break_stm
+   18                   | case_labels default_label variable_definitions break_stm
+   19                   | case_labels default_label break_stm
+   20                   | default_label break_stm
+
+   21 default_label: RW_DEFAULT ':'
+
+   22 case_statement: case_labels variable_definitions
+   23               | case_labels variable_definitions break_stm
+   24               | case_labels break_stm
+
+   25 break_stm: RW_BREAK ';'
+
+   26 case_labels: case_label
+   27            | case_label case_labels
+
+   28 case_label: RW_CASE DIGIT ':'
+
+   29 ifstm_definition: start_if_stm variable_definitions start_elif_stm variable_definitions start_else_stm variable_definitions stop_else_stm
+   30                 | start_if_stm variable_definitions start_else_stm variable_definitions stop_else_stm
+   31                 | start_if_stm variable_definitions stop_if_stm
+
+   32 start_if_stm: RW_IF '(' IDENTIFIER ')' '{'
+
+   33 stop_if_stm: '}'
+
+   34 start_elif_stm: '}' RW_ELSE_IF '(' IDENTIFIER ')' '{'
+
+   35 start_else_stm: '}' RW_ELSE '{'
+
+   36 stop_else_stm: '}'
+
+   37 variable_definitions: variable_definition
+   38                     | variable_definition variable_definitions
+
+   39 variable_definition: variable_statement
+   40                    | print_statement
+   41                    | exit_statement
+
+   42 exit_statement: RW_EXIT ';'
+
+   43 print_statement: RW_PRINT QSTRING ';'
+
+   44 variable_statement: IDENTIFIER '=' DIGIT ';'
+   45                   | IDENTIFIER '=' QSTRING ';'
+   46                   | IDENTIFIER '=' RW_FLAG_ON ';'
+   47                   | IDENTIFIER '=' RW_FLAG_OFF ';'
+   48                   | IDENTIFIER '=' '[' comma_list_data ']' ';'
+
+   49 comma_list_data: comma_list_number
+   50                | comma_list_string
+
+   51 comma_list_number: DIGIT
+   52                  | DIGIT ',' comma_list_number
+
+   53 comma_list_string: QSTRING
+   54                  | QSTRING ',' comma_list_string
+
+   55 special_definition: RW_SPEICAL_STDRULE '{' tag_definitions '}'
+
+   56 tag_definitions: tag_definition
+   57                | tag_definition tag_definitions
+
+   58 tag_definition: RW_FLAG_ON SQ_CHARACTER RW_INCREASE PERCENT ';'
+   59               | RW_FLAG_ON SQ_CHARACTER RW_LOWER PERCENT ';'
+   60               | RW_FLAG_ON SQ_CHARACTER RW_NORMAL ';'
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+'(' (40) 12 32 34
+')' (41) 12 32 34
+',' (44) 52 54
+':' (58) 21 28
+';' (59) 25 42 43 44 45 46 47 48 58 59 60
+'=' (61) 44 45 46 47 48
+'[' (91) 48
+']' (93) 48
+'{' (123) 12 32 34 35 55
+'}' (125) 13 33 34 35 36 55
+error (256)
+RW_FLAG_ON (258) 46 58 59 60
+RW_FLAG_OFF (259) 47
+RW_IF (260) 32
+RW_ELSE (261) 35
+RW_ELSE_IF (262) 34
+IDENTIFIER (263) 12 32 34 44 45 46 47 48
+DIGIT (264) 28 44 51 52
+QSTRING (265) 43 45 53 54
+FQSTRING (266)
+RW_INCREASE (267) 58
+RW_LOWER (268) 59
+RW_NORMAL (269) 60
+SQ_CHARACTER (270) 58 59 60
+PERCENT (271) 58 59
+RW_SPEICAL_STDRULE (272) 55
+RW_SWITCH (273) 12
+RW_CASE (274) 28
+RW_BREAK (275) 25
+RW_DEFAULT (276) 21
+RW_PRINT (277) 43
+RW_EXIT (278) 42
+
+
+Nonterminals, with rules where they appear
+
+$accept (34)
+    on left: 0
+full_definition (35)
+    on left: 1, on right: 0
+system_definitions (36)
+    on left: 2 3, on right: 1
+system_definition (37)
+    on left: 4 5, on right: 3
+statement_definitions (38)
+    on left: 6 7, on right: 2 3 7
+statement_definition (39)
+    on left: 8 9 10, on right: 6 7
+switch_definition (40)
+    on left: 11, on right: 10
+start_sw_stm (41)
+    on left: 12, on right: 11
+end_sw_stm (42)
+    on left: 13, on right: 11
+case_statements (43)
+    on left: 14 15 16, on right: 11 16
+case_def_statement (44)
+    on left: 17 18 19 20, on right: 15
+default_label (45)
+    on left: 21, on right: 17 18 19 20
+case_statement (46)
+    on left: 22 23 24, on right: 14 16
+break_stm (47)
+    on left: 25, on right: 17 18 19 20 23 24
+case_labels (48)
+    on left: 26 27, on right: 18 19 22 23 24 27
+case_label (49)
+    on left: 28, on right: 26 27
+ifstm_definition (50)
+    on left: 29 30 31, on right: 9
+start_if_stm (51)
+    on left: 32, on right: 29 30 31
+stop_if_stm (52)
+    on left: 33, on right: 31
+start_elif_stm (53)
+    on left: 34, on right: 29
+start_else_stm (54)
+    on left: 35, on right: 29 30
+stop_else_stm (55)
+    on left: 36, on right: 29 30
+variable_definitions (56)
+    on left: 37 38, on right: 5 17 18 22 23 29 30 31 38
+variable_definition (57)
+    on left: 39 40 41, on right: 8 37 38
+exit_statement (58)
+    on left: 42, on right: 41
+print_statement (59)
+    on left: 43, on right: 40
+variable_statement (60)
+    on left: 44 45 46 47 48, on right: 39
+comma_list_data (61)
+    on left: 49 50, on right: 48
+comma_list_number (62)
+    on left: 51 52, on right: 49 52
+comma_list_string (63)
+    on left: 53 54, on right: 50 54
+special_definition (64)
+    on left: 55, on right: 4 5
+tag_definitions (65)
+    on left: 56 57, on right: 55 57
+tag_definition (66)
+    on left: 58 59 60, on right: 56 57
+
+
+State 0
+
+    0 $accept: . full_definition $end
+
+    RW_IF       shift, and go to state 1
+    IDENTIFIER  shift, and go to state 2
+    RW_SWITCH   shift, and go to state 3
+    RW_PRINT    shift, and go to state 4
+    RW_EXIT     shift, and go to state 5
+
+    full_definition        go to state 6
+    system_definitions     go to state 7
+    statement_definitions  go to state 8
+    statement_definition   go to state 9
+    switch_definition      go to state 10
+    start_sw_stm           go to state 11
+    ifstm_definition       go to state 12
+    start_if_stm           go to state 13
+    variable_definition    go to state 14
+    exit_statement         go to state 15
+    print_statement        go to state 16
+    variable_statement     go to state 17
+
+
+State 1
+
+   32 start_if_stm: RW_IF . '(' IDENTIFIER ')' '{'
+
+    '('  shift, and go to state 18
+
+
+State 2
+
+   44 variable_statement: IDENTIFIER . '=' DIGIT ';'
+   45                   | IDENTIFIER . '=' QSTRING ';'
+   46                   | IDENTIFIER . '=' RW_FLAG_ON ';'
+   47                   | IDENTIFIER . '=' RW_FLAG_OFF ';'
+   48                   | IDENTIFIER . '=' '[' comma_list_data ']' ';'
+
+    '='  shift, and go to state 19
+
+
+State 3
+
+   12 start_sw_stm: RW_SWITCH . '(' IDENTIFIER ')' '{'
+
+    '('  shift, and go to state 20
+
+
+State 4
+
+   43 print_statement: RW_PRINT . QSTRING ';'
+
+    QSTRING  shift, and go to state 21
+
+
+State 5
+
+   42 exit_statement: RW_EXIT . ';'
+
+    ';'  shift, and go to state 22
+
+
+State 6
+
+    0 $accept: full_definition . $end
+
+    $end  shift, and go to state 23
+
+
+State 7
+
+    1 full_definition: system_definitions .
+
+    $default  reduce using rule 1 (full_definition)
+
+
+State 8
+
+    2 system_definitions: statement_definitions .
+    3                   | statement_definitions . system_definition
+
+    RW_SPEICAL_STDRULE  shift, and go to state 24
+
+    $default  reduce using rule 2 (system_definitions)
+
+    system_definition   go to state 25
+    special_definition  go to state 26
+
+
+State 9
+
+    6 statement_definitions: statement_definition .
+    7                      | statement_definition . statement_definitions
+
+    RW_IF       shift, and go to state 1
+    IDENTIFIER  shift, and go to state 2
+    RW_SWITCH   shift, and go to state 3
+    RW_PRINT    shift, and go to state 4
+    RW_EXIT     shift, and go to state 5
+
+    $default  reduce using rule 6 (statement_definitions)
+
+    statement_definitions  go to state 27
+    statement_definition   go to state 9
+    switch_definition      go to state 10
+    start_sw_stm           go to state 11
+    ifstm_definition       go to state 12
+    start_if_stm           go to state 13
+    variable_definition    go to state 14
+    exit_statement         go to state 15
+    print_statement        go to state 16
+    variable_statement     go to state 17
+
+
+State 10
+
+   10 statement_definition: switch_definition .
+
+    $default  reduce using rule 10 (statement_definition)
+
+
+State 11
+
+   11 switch_definition: start_sw_stm . case_statements end_sw_stm
+
+    RW_CASE     shift, and go to state 28
+    RW_DEFAULT  shift, and go to state 29
+
+    case_statements     go to state 30
+    case_def_statement  go to state 31
+    default_label       go to state 32
+    case_statement      go to state 33
+    case_labels         go to state 34
+    case_label          go to state 35
+
+
+State 12
+
+    9 statement_definition: ifstm_definition .
+
+    $default  reduce using rule 9 (statement_definition)
+
+
+State 13
+
+   29 ifstm_definition: start_if_stm . variable_definitions start_elif_stm variable_definitions start_else_stm variable_definitions stop_else_stm
+   30                 | start_if_stm . variable_definitions start_else_stm variable_definitions stop_else_stm
+   31                 | start_if_stm . variable_definitions stop_if_stm
+
+    IDENTIFIER  shift, and go to state 2
+    RW_PRINT    shift, and go to state 4
+    RW_EXIT     shift, and go to state 5
+
+    variable_definitions  go to state 36
+    variable_definition   go to state 37
+    exit_statement        go to state 15
+    print_statement       go to state 16
+    variable_statement    go to state 17
+
+
+State 14
+
+    8 statement_definition: variable_definition .
+
+    $default  reduce using rule 8 (statement_definition)
+
+
+State 15
+
+   41 variable_definition: exit_statement .
+
+    $default  reduce using rule 41 (variable_definition)
+
+
+State 16
+
+   40 variable_definition: print_statement .
+
+    $default  reduce using rule 40 (variable_definition)
+
+
+State 17
+
+   39 variable_definition: variable_statement .
+
+    $default  reduce using rule 39 (variable_definition)
+
+
+State 18
+
+   32 start_if_stm: RW_IF '(' . IDENTIFIER ')' '{'
+
+    IDENTIFIER  shift, and go to state 38
+
+
+State 19
+
+   44 variable_statement: IDENTIFIER '=' . DIGIT ';'
+   45                   | IDENTIFIER '=' . QSTRING ';'
+   46                   | IDENTIFIER '=' . RW_FLAG_ON ';'
+   47                   | IDENTIFIER '=' . RW_FLAG_OFF ';'
+   48                   | IDENTIFIER '=' . '[' comma_list_data ']' ';'
+
+    RW_FLAG_ON   shift, and go to state 39
+    RW_FLAG_OFF  shift, and go to state 40
+    DIGIT        shift, and go to state 41
+    QSTRING      shift, and go to state 42
+    '['          shift, and go to state 43
+
+
+State 20
+
+   12 start_sw_stm: RW_SWITCH '(' . IDENTIFIER ')' '{'
+
+    IDENTIFIER  shift, and go to state 44
+
+
+State 21
+
+   43 print_statement: RW_PRINT QSTRING . ';'
+
+    ';'  shift, and go to state 45
+
+
+State 22
+
+   42 exit_statement: RW_EXIT ';' .
+
+    $default  reduce using rule 42 (exit_statement)
+
+
+State 23
+
+    0 $accept: full_definition $end .
+
+    $default  accept
+
+
+State 24
+
+   55 special_definition: RW_SPEICAL_STDRULE . '{' tag_definitions '}'
+
+    '{'  shift, and go to state 46
+
+
+State 25
+
+    3 system_definitions: statement_definitions system_definition .
+
+    $default  reduce using rule 3 (system_definitions)
+
+
+State 26
+
+    4 system_definition: special_definition .
+    5                  | special_definition . variable_definitions
+
+    IDENTIFIER  shift, and go to state 2
+    RW_PRINT    shift, and go to state 4
+    RW_EXIT     shift, and go to state 5
+
+    $default  reduce using rule 4 (system_definition)
+
+    variable_definitions  go to state 47
+    variable_definition   go to state 37
+    exit_statement        go to state 15
+    print_statement       go to state 16
+    variable_statement    go to state 17
+
+
+State 27
+
+    7 statement_definitions: statement_definition statement_definitions .
+
+    $default  reduce using rule 7 (statement_definitions)
+
+
+State 28
+
+   28 case_label: RW_CASE . DIGIT ':'
+
+    DIGIT  shift, and go to state 48
+
+
+State 29
+
+   21 default_label: RW_DEFAULT . ':'
+
+    ':'  shift, and go to state 49
+
+
+State 30
+
+   11 switch_definition: start_sw_stm case_statements . end_sw_stm
+
+    '}'  shift, and go to state 50
+
+    end_sw_stm  go to state 51
+
+
+State 31
+
+   15 case_statements: case_def_statement .
+
+    $default  reduce using rule 15 (case_statements)
+
+
+State 32
+
+   17 case_def_statement: default_label . variable_definitions break_stm
+   20                   | default_label . break_stm
+
+    IDENTIFIER  shift, and go to state 2
+    RW_BREAK    shift, and go to state 52
+    RW_PRINT    shift, and go to state 4
+    RW_EXIT     shift, and go to state 5
+
+    break_stm             go to state 53
+    variable_definitions  go to state 54
+    variable_definition   go to state 37
+    exit_statement        go to state 15
+    print_statement       go to state 16
+    variable_statement    go to state 17
+
+
+State 33
+
+   14 case_statements: case_statement .
+   16                | case_statement . case_statements
+
+    RW_CASE     shift, and go to state 28
+    RW_DEFAULT  shift, and go to state 29
+
+    $default  reduce using rule 14 (case_statements)
+
+    case_statements     go to state 55
+    case_def_statement  go to state 31
+    default_label       go to state 32
+    case_statement      go to state 33
+    case_labels         go to state 34
+    case_label          go to state 35
+
+
+State 34
+
+   18 case_def_statement: case_labels . default_label variable_definitions break_stm
+   19                   | case_labels . default_label break_stm
+   22 case_statement: case_labels . variable_definitions
+   23               | case_labels . variable_definitions break_stm
+   24               | case_labels . break_stm
+
+    IDENTIFIER  shift, and go to state 2
+    RW_BREAK    shift, and go to state 52
+    RW_DEFAULT  shift, and go to state 29
+    RW_PRINT    shift, and go to state 4
+    RW_EXIT     shift, and go to state 5
+
+    default_label         go to state 56
+    break_stm             go to state 57
+    variable_definitions  go to state 58
+    variable_definition   go to state 37
+    exit_statement        go to state 15
+    print_statement       go to state 16
+    variable_statement    go to state 17
+
+
+State 35
+
+   26 case_labels: case_label .
+   27            | case_label . case_labels
+
+    RW_CASE  shift, and go to state 28
+
+    $default  reduce using rule 26 (case_labels)
+
+    case_labels  go to state 59
+    case_label   go to state 35
+
+
+State 36
+
+   29 ifstm_definition: start_if_stm variable_definitions . start_elif_stm variable_definitions start_else_stm variable_definitions stop_else_stm
+   30                 | start_if_stm variable_definitions . start_else_stm variable_definitions stop_else_stm
+   31                 | start_if_stm variable_definitions . stop_if_stm
+
+    '}'  shift, and go to state 60
+
+    stop_if_stm     go to state 61
+    start_elif_stm  go to state 62
+    start_else_stm  go to state 63
+
+
+State 37
+
+   37 variable_definitions: variable_definition .
+   38                     | variable_definition . variable_definitions
+
+    IDENTIFIER  shift, and go to state 2
+    RW_PRINT    shift, and go to state 4
+    RW_EXIT     shift, and go to state 5
+
+    $default  reduce using rule 37 (variable_definitions)
+
+    variable_definitions  go to state 64
+    variable_definition   go to state 37
+    exit_statement        go to state 15
+    print_statement       go to state 16
+    variable_statement    go to state 17
+
+
+State 38
+
+   32 start_if_stm: RW_IF '(' IDENTIFIER . ')' '{'
+
+    ')'  shift, and go to state 65
+
+
+State 39
+
+   46 variable_statement: IDENTIFIER '=' RW_FLAG_ON . ';'
+
+    ';'  shift, and go to state 66
+
+
+State 40
+
+   47 variable_statement: IDENTIFIER '=' RW_FLAG_OFF . ';'
+
+    ';'  shift, and go to state 67
+
+
+State 41
+
+   44 variable_statement: IDENTIFIER '=' DIGIT . ';'
+
+    ';'  shift, and go to state 68
+
+
+State 42
+
+   45 variable_statement: IDENTIFIER '=' QSTRING . ';'
+
+    ';'  shift, and go to state 69
+
+
+State 43
+
+   48 variable_statement: IDENTIFIER '=' '[' . comma_list_data ']' ';'
+
+    DIGIT    shift, and go to state 70
+    QSTRING  shift, and go to state 71
+
+    comma_list_data    go to state 72
+    comma_list_number  go to state 73
+    comma_list_string  go to state 74
+
+
+State 44
+
+   12 start_sw_stm: RW_SWITCH '(' IDENTIFIER . ')' '{'
+
+    ')'  shift, and go to state 75
+
+
+State 45
+
+   43 print_statement: RW_PRINT QSTRING ';' .
+
+    $default  reduce using rule 43 (print_statement)
+
+
+State 46
+
+   55 special_definition: RW_SPEICAL_STDRULE '{' . tag_definitions '}'
+
+    RW_FLAG_ON  shift, and go to state 76
+
+    tag_definitions  go to state 77
+    tag_definition   go to state 78
+
+
+State 47
+
+    5 system_definition: special_definition variable_definitions .
+
+    $default  reduce using rule 5 (system_definition)
+
+
+State 48
+
+   28 case_label: RW_CASE DIGIT . ':'
+
+    ':'  shift, and go to state 79
+
+
+State 49
+
+   21 default_label: RW_DEFAULT ':' .
+
+    $default  reduce using rule 21 (default_label)
+
+
+State 50
+
+   13 end_sw_stm: '}' .
+
+    $default  reduce using rule 13 (end_sw_stm)
+
+
+State 51
+
+   11 switch_definition: start_sw_stm case_statements end_sw_stm .
+
+    $default  reduce using rule 11 (switch_definition)
+
+
+State 52
+
+   25 break_stm: RW_BREAK . ';'
+
+    ';'  shift, and go to state 80
+
+
+State 53
+
+   20 case_def_statement: default_label break_stm .
+
+    $default  reduce using rule 20 (case_def_statement)
+
+
+State 54
+
+   17 case_def_statement: default_label variable_definitions . break_stm
+
+    RW_BREAK  shift, and go to state 52
+
+    break_stm  go to state 81
+
+
+State 55
+
+   16 case_statements: case_statement case_statements .
+
+    $default  reduce using rule 16 (case_statements)
+
+
+State 56
+
+   18 case_def_statement: case_labels default_label . variable_definitions break_stm
+   19                   | case_labels default_label . break_stm
+
+    IDENTIFIER  shift, and go to state 2
+    RW_BREAK    shift, and go to state 52
+    RW_PRINT    shift, and go to state 4
+    RW_EXIT     shift, and go to state 5
+
+    break_stm             go to state 82
+    variable_definitions  go to state 83
+    variable_definition   go to state 37
+    exit_statement        go to state 15
+    print_statement       go to state 16
+    variable_statement    go to state 17
+
+
+State 57
+
+   24 case_statement: case_labels break_stm .
+
+    $default  reduce using rule 24 (case_statement)
+
+
+State 58
+
+   22 case_statement: case_labels variable_definitions .
+   23               | case_labels variable_definitions . break_stm
+
+    RW_BREAK  shift, and go to state 52
+
+    $default  reduce using rule 22 (case_statement)
+
+    break_stm  go to state 84
+
+
+State 59
+
+   27 case_labels: case_label case_labels .
+
+    $default  reduce using rule 27 (case_labels)
+
+
+State 60
+
+   33 stop_if_stm: '}' .
+   34 start_elif_stm: '}' . RW_ELSE_IF '(' IDENTIFIER ')' '{'
+   35 start_else_stm: '}' . RW_ELSE '{'
+
+    RW_ELSE     shift, and go to state 85
+    RW_ELSE_IF  shift, and go to state 86
+
+    $default  reduce using rule 33 (stop_if_stm)
+
+
+State 61
+
+   31 ifstm_definition: start_if_stm variable_definitions stop_if_stm .
+
+    $default  reduce using rule 31 (ifstm_definition)
+
+
+State 62
+
+   29 ifstm_definition: start_if_stm variable_definitions start_elif_stm . variable_definitions start_else_stm variable_definitions stop_else_stm
+
+    IDENTIFIER  shift, and go to state 2
+    RW_PRINT    shift, and go to state 4
+    RW_EXIT     shift, and go to state 5
+
+    variable_definitions  go to state 87
+    variable_definition   go to state 37
+    exit_statement        go to state 15
+    print_statement       go to state 16
+    variable_statement    go to state 17
+
+
+State 63
+
+   30 ifstm_definition: start_if_stm variable_definitions start_else_stm . variable_definitions stop_else_stm
+
+    IDENTIFIER  shift, and go to state 2
+    RW_PRINT    shift, and go to state 4
+    RW_EXIT     shift, and go to state 5
+
+    variable_definitions  go to state 88
+    variable_definition   go to state 37
+    exit_statement        go to state 15
+    print_statement       go to state 16
+    variable_statement    go to state 17
+
+
+State 64
+
+   38 variable_definitions: variable_definition variable_definitions .
+
+    $default  reduce using rule 38 (variable_definitions)
+
+
+State 65
+
+   32 start_if_stm: RW_IF '(' IDENTIFIER ')' . '{'
+
+    '{'  shift, and go to state 89
+
+
+State 66
+
+   46 variable_statement: IDENTIFIER '=' RW_FLAG_ON ';' .
+
+    $default  reduce using rule 46 (variable_statement)
+
+
+State 67
+
+   47 variable_statement: IDENTIFIER '=' RW_FLAG_OFF ';' .
+
+    $default  reduce using rule 47 (variable_statement)
+
+
+State 68
+
+   44 variable_statement: IDENTIFIER '=' DIGIT ';' .
+
+    $default  reduce using rule 44 (variable_statement)
+
+
+State 69
+
+   45 variable_statement: IDENTIFIER '=' QSTRING ';' .
+
+    $default  reduce using rule 45 (variable_statement)
+
+
+State 70
+
+   51 comma_list_number: DIGIT .
+   52                  | DIGIT . ',' comma_list_number
+
+    ','  shift, and go to state 90
+
+    $default  reduce using rule 51 (comma_list_number)
+
+
+State 71
+
+   53 comma_list_string: QSTRING .
+   54                  | QSTRING . ',' comma_list_string
+
+    ','  shift, and go to state 91
+
+    $default  reduce using rule 53 (comma_list_string)
+
+
+State 72
+
+   48 variable_statement: IDENTIFIER '=' '[' comma_list_data . ']' ';'
+
+    ']'  shift, and go to state 92
+
+
+State 73
+
+   49 comma_list_data: comma_list_number .
+
+    $default  reduce using rule 49 (comma_list_data)
+
+
+State 74
+
+   50 comma_list_data: comma_list_string .
+
+    $default  reduce using rule 50 (comma_list_data)
+
+
+State 75
+
+   12 start_sw_stm: RW_SWITCH '(' IDENTIFIER ')' . '{'
+
+    '{'  shift, and go to state 93
+
+
+State 76
+
+   58 tag_definition: RW_FLAG_ON . SQ_CHARACTER RW_INCREASE PERCENT ';'
+   59               | RW_FLAG_ON . SQ_CHARACTER RW_LOWER PERCENT ';'
+   60               | RW_FLAG_ON . SQ_CHARACTER RW_NORMAL ';'
+
+    SQ_CHARACTER  shift, and go to state 94
+
+
+State 77
+
+   55 special_definition: RW_SPEICAL_STDRULE '{' tag_definitions . '}'
+
+    '}'  shift, and go to state 95
+
+
+State 78
+
+   56 tag_definitions: tag_definition .
+   57                | tag_definition . tag_definitions
+
+    RW_FLAG_ON  shift, and go to state 76
+
+    $default  reduce using rule 56 (tag_definitions)
+
+    tag_definitions  go to state 96
+    tag_definition   go to state 78
+
+
+State 79
+
+   28 case_label: RW_CASE DIGIT ':' .
+
+    $default  reduce using rule 28 (case_label)
+
+
+State 80
+
+   25 break_stm: RW_BREAK ';' .
+
+    $default  reduce using rule 25 (break_stm)
+
+
+State 81
+
+   17 case_def_statement: default_label variable_definitions break_stm .
+
+    $default  reduce using rule 17 (case_def_statement)
+
+
+State 82
+
+   19 case_def_statement: case_labels default_label break_stm .
+
+    $default  reduce using rule 19 (case_def_statement)
+
+
+State 83
+
+   18 case_def_statement: case_labels default_label variable_definitions . break_stm
+
+    RW_BREAK  shift, and go to state 52
+
+    break_stm  go to state 97
+
+
+State 84
+
+   23 case_statement: case_labels variable_definitions break_stm .
+
+    $default  reduce using rule 23 (case_statement)
+
+
+State 85
+
+   35 start_else_stm: '}' RW_ELSE . '{'
+
+    '{'  shift, and go to state 98
+
+
+State 86
+
+   34 start_elif_stm: '}' RW_ELSE_IF . '(' IDENTIFIER ')' '{'
+
+    '('  shift, and go to state 99
+
+
+State 87
+
+   29 ifstm_definition: start_if_stm variable_definitions start_elif_stm variable_definitions . start_else_stm variable_definitions stop_else_stm
+
+    '}'  shift, and go to state 100
+
+    start_else_stm  go to state 101
+
+
+State 88
+
+   30 ifstm_definition: start_if_stm variable_definitions start_else_stm variable_definitions . stop_else_stm
+
+    '}'  shift, and go to state 102
+
+    stop_else_stm  go to state 103
+
+
+State 89
+
+   32 start_if_stm: RW_IF '(' IDENTIFIER ')' '{' .
+
+    $default  reduce using rule 32 (start_if_stm)
+
+
+State 90
+
+   52 comma_list_number: DIGIT ',' . comma_list_number
+
+    DIGIT  shift, and go to state 70
+
+    comma_list_number  go to state 104
+
+
+State 91
+
+   54 comma_list_string: QSTRING ',' . comma_list_string
+
+    QSTRING  shift, and go to state 71
+
+    comma_list_string  go to state 105
+
+
+State 92
+
+   48 variable_statement: IDENTIFIER '=' '[' comma_list_data ']' . ';'
+
+    ';'  shift, and go to state 106
+
+
+State 93
+
+   12 start_sw_stm: RW_SWITCH '(' IDENTIFIER ')' '{' .
+
+    $default  reduce using rule 12 (start_sw_stm)
+
+
+State 94
+
+   58 tag_definition: RW_FLAG_ON SQ_CHARACTER . RW_INCREASE PERCENT ';'
+   59               | RW_FLAG_ON SQ_CHARACTER . RW_LOWER PERCENT ';'
+   60               | RW_FLAG_ON SQ_CHARACTER . RW_NORMAL ';'
+
+    RW_INCREASE  shift, and go to state 107
+    RW_LOWER     shift, and go to state 108
+    RW_NORMAL    shift, and go to state 109
+
+
+State 95
+
+   55 special_definition: RW_SPEICAL_STDRULE '{' tag_definitions '}' .
+
+    $default  reduce using rule 55 (special_definition)
+
+
+State 96
+
+   57 tag_definitions: tag_definition tag_definitions .
+
+    $default  reduce using rule 57 (tag_definitions)
+
+
+State 97
+
+   18 case_def_statement: case_labels default_label variable_definitions break_stm .
+
+    $default  reduce using rule 18 (case_def_statement)
+
+
+State 98
+
+   35 start_else_stm: '}' RW_ELSE '{' .
+
+    $default  reduce using rule 35 (start_else_stm)
+
+
+State 99
+
+   34 start_elif_stm: '}' RW_ELSE_IF '(' . IDENTIFIER ')' '{'
+
+    IDENTIFIER  shift, and go to state 110
+
+
+State 100
+
+   35 start_else_stm: '}' . RW_ELSE '{'
+
+    RW_ELSE  shift, and go to state 85
+
+
+State 101
+
+   29 ifstm_definition: start_if_stm variable_definitions start_elif_stm variable_definitions start_else_stm . variable_definitions stop_else_stm
+
+    IDENTIFIER  shift, and go to state 2
+    RW_PRINT    shift, and go to state 4
+    RW_EXIT     shift, and go to state 5
+
+    variable_definitions  go to state 111
+    variable_definition   go to state 37
+    exit_statement        go to state 15
+    print_statement       go to state 16
+    variable_statement    go to state 17
+
+
+State 102
+
+   36 stop_else_stm: '}' .
+
+    $default  reduce using rule 36 (stop_else_stm)
+
+
+State 103
+
+   30 ifstm_definition: start_if_stm variable_definitions start_else_stm variable_definitions stop_else_stm .
+
+    $default  reduce using rule 30 (ifstm_definition)
+
+
+State 104
+
+   52 comma_list_number: DIGIT ',' comma_list_number .
+
+    $default  reduce using rule 52 (comma_list_number)
+
+
+State 105
+
+   54 comma_list_string: QSTRING ',' comma_list_string .
+
+    $default  reduce using rule 54 (comma_list_string)
+
+
+State 106
+
+   48 variable_statement: IDENTIFIER '=' '[' comma_list_data ']' ';' .
+
+    $default  reduce using rule 48 (variable_statement)
+
+
+State 107
+
+   58 tag_definition: RW_FLAG_ON SQ_CHARACTER RW_INCREASE . PERCENT ';'
+
+    PERCENT  shift, and go to state 112
+
+
+State 108
+
+   59 tag_definition: RW_FLAG_ON SQ_CHARACTER RW_LOWER . PERCENT ';'
+
+    PERCENT  shift, and go to state 113
+
+
+State 109
+
+   60 tag_definition: RW_FLAG_ON SQ_CHARACTER RW_NORMAL . ';'
+
+    ';'  shift, and go to state 114
+
+
+State 110
+
+   34 start_elif_stm: '}' RW_ELSE_IF '(' IDENTIFIER . ')' '{'
+
+    ')'  shift, and go to state 115
+
+
+State 111
+
+   29 ifstm_definition: start_if_stm variable_definitions start_elif_stm variable_definitions start_else_stm variable_definitions . stop_else_stm
+
+    '}'  shift, and go to state 102
+
+    stop_else_stm  go to state 116
+
+
+State 112
+
+   58 tag_definition: RW_FLAG_ON SQ_CHARACTER RW_INCREASE PERCENT . ';'
+
+    ';'  shift, and go to state 117
+
+
+State 113
+
+   59 tag_definition: RW_FLAG_ON SQ_CHARACTER RW_LOWER PERCENT . ';'
+
+    ';'  shift, and go to state 118
+
+
+State 114
+
+   60 tag_definition: RW_FLAG_ON SQ_CHARACTER RW_NORMAL ';' .
+
+    $default  reduce using rule 60 (tag_definition)
+
+
+State 115
+
+   34 start_elif_stm: '}' RW_ELSE_IF '(' IDENTIFIER ')' . '{'
+
+    '{'  shift, and go to state 119
+
+
+State 116
+
+   29 ifstm_definition: start_if_stm variable_definitions start_elif_stm variable_definitions start_else_stm variable_definitions stop_else_stm .
+
+    $default  reduce using rule 29 (ifstm_definition)
+
+
+State 117
+
+   58 tag_definition: RW_FLAG_ON SQ_CHARACTER RW_INCREASE PERCENT ';' .
+
+    $default  reduce using rule 58 (tag_definition)
+
+
+State 118
+
+   59 tag_definition: RW_FLAG_ON SQ_CHARACTER RW_LOWER PERCENT ';' .
+
+    $default  reduce using rule 59 (tag_definition)
+
+
+State 119
+
+   34 start_elif_stm: '}' RW_ELSE_IF '(' IDENTIFIER ')' '{' .
+
+    $default  reduce using rule 34 (start_elif_stm)
